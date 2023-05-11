@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="style.css">
+	<title>Task 3</title>
+</head>
+<body>
+	<script>
+	//Створити генератор, який би випадковим чином поступово генерував вказану кількість парних чисел.
+	let userNumber = parseInt(prompt('Вкажіть кількість потрібних чисел'))
+	//
+	function getOdd(min,max){
+		let randNum = min + Math.floor(Math.random() * (max - min + 1))
+		return (randNum%2 === 0) ? randNum : randNum + 1
+	}
+	//
+	function* getOddNumbers(userNumber){
+		while(userNumber > 0){
+			const num = getOdd(1,100)
+			userNumber--
+			yield num
+		}
+	}
+	for(const number of getOddNumbers(userNumber)){
+		document.write(`<p>${number}</p>`)
+	}
+	</script>
+</body>
+</html>

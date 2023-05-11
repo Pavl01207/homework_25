@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="style.css">
+	<title>Task 4</title>
+</head>
+<body>
+	<style>
+		body{
+			background-color: darkslategrey;
+		}
+		img{
+			border-radius: 10px;
+			margin-left: -20px;
+			transition: transform 1s ease 0s;
+			opacity: 0.6;
+		}
+		.container{
+			display: flex;
+		}
+		img:hover{
+			transform: scale(1.1);
+			opacity: 1;
+		}
+		button{
+			text-transform: uppercase;
+			font-family: "Raleway",serif;
+			font-size: 20px;
+			font-weight: 700;
+			padding: 5px;
+			border-radius: 5px;
+			border: 2px solid wheat;
+			background-color: transparent;
+			color: wheat;
+		}
+		button:hover{
+			background-color: wheat;
+			border: 2px solid wheat;
+			color: darkslategrey;
+			cursor: pointer;
+		}
+		.main{
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			padding-top: 50px;
+		}
+		.button__container{
+			margin-top: 20px;
+			display: flex;
+			gap: 10px;
+			align-self: center;
+		}
+	</style>
+	<div class="main">
+	<div class="container"></div>
+	<div class="button__container">
+		<button class="btn">click</button>
+	<button class="rem">delete</button>
+	</div>
+</div>
+	<script>
+		//Використовуючи один з АРІ
+		//та функцію fetch організувати завантаження та відображення дани
+		function getRandomNumber(max){
+			return Math.floor(Math.random()*max)
+		}
+		function createImg(imgSrc){
+			const img = document.createElement('img')
+			img.src = imgSrc
+			return img
+		}
+		//
+		async function getImg(num){
+			const url = "https://api.pexels.com/v1/curated?per_page=50"
+			return new Promise ((resolve,reject)=>{
+			fetch(url,{
+				method: 'GET',
+				headers: {
+					Accept: 'application/json',
+					Authorization: 'dntqxQISocrcay5grnHh4TCBkPQe4gkMXwdmcXXsKJ8WQtJv36tc6wNn'
+				}
+			})
+			.then((response) => response.json())
+			.then((data) => data.photos[num].src.medium)
+			.then((imageLink)=>{
+				resolve(imageLink)
+			})
+			.catch((err)=>{
+				reject(err)
+			})
+		})
+		}
+		async function go(){
+		let random = getRandomNumber(50)
+		let imgSrc = await getImg(random)
+		console.log(imgSrc)
+		document.querySelector('.container').append(createImg(imgSrc))
+		}
+		document.querySelector(".btn").onclick = go
+		document.querySelector(".rem").addEventListener('click',()=>{
+		document.querySelector('img').remove()
+		})
+</script>
+</body>
+</html>
